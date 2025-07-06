@@ -6,8 +6,8 @@ const continents = [
   'Asia',
   'Europe',
   'North America',
-  'Oceania',
   'South America',
+  'Oceania',
 ];
 
 type ContinentScreenProps = {

@@ -35,7 +35,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Continent" component={ContinentScreen} options={{ title: 'Back Home' }} />
+        <Stack.Screen name="Continent" component={ContinentScreen} options={{ title: 'Select Continent' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
