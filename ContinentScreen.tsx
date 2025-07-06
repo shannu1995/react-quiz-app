@@ -29,13 +29,11 @@ export default function ContinentScreen({ navigation }: ContinentScreenProps) {
         style={styles.listStyle} // Apply width to the FlatList itself
         contentContainerStyle={styles.buttonContainer} // Apply gap to the content container
         ListFooterComponent={() => (
-          <View style={styles.footerButtonWrapper}>
             <Button
               title="Choose Quiz on Difficulty"
               onPress={() => navigation.navigate('Home')}
               color="#66BB6A"
             />
-          </View>
         )}
       />
     </View>
@@ -60,8 +58,5 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     gap: 10, // This will add spacing between the buttons
-  },
-  footerButtonWrapper: {
-    marginTop: 10, // This will create the gap after the last continent button
   },
 });
