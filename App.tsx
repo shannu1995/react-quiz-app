@@ -4,6 +4,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ContinentScreen from './ContinentScreen';
+import AllDataScreen from './AllDataScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,10 @@ function HomeScreen({ navigation }: HomeScreenProps) {
     <View style={styles.container}>
       <Text style={styles.header}>Choose Quiz On Difficulty</Text>
       <View style={styles.buttonContainer}>
+        <Button 
+          title="View Existing Data"
+          onPress={() => navigation.navigate("All Current Data")}
+          color="#66BB6A" />
         <Button title="Easy" onPress={() => {}} />
         <Button title="Hard" onPress={() => {}} />
         <Button title="Random" onPress={() => {}} />
@@ -36,6 +41,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Continent" component={ContinentScreen} options={{ title: 'Select Continent' }} />
+        <Stack.Screen name="All Current Data" component={AllDataScreen} options={{ title: 'All Current Data' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
