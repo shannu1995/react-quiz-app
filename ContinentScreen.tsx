@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, Button } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from './types';
 
 const continents = [
   'Africa',
@@ -10,13 +12,11 @@ const continents = [
   'Oceania',
 ];
 
-type ContinentScreenProps = {
-  navigation: any;
-};
+type ContinentScreenProps = NativeStackScreenProps<RootStackParamList, 'Continent'>;
 
 export default function ContinentScreen({ navigation }: ContinentScreenProps) {
   const renderItem = ({ item }: { item: string }) => (
-    <Button title={item} onPress={() => { /* Handle continent selection */ }} />
+    <Button title={item} onPress={() => navigation.navigate("QuizScreen", {difficulty:"random", continent: item})} />
   );
 
   return (
