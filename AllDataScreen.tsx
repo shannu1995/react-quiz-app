@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Text, ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
 import RenderHtml from 'react-native-render-html';
+import { API_BASE_URL } from './config';
 
 type AllDataScreenProps = {
   navigation: any;
@@ -16,7 +17,7 @@ export default function AllDataScreen({ navigation }: AllDataScreenProps) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('https://geography-quiz.net/view-existing-data');
+                const response = await fetch(`${API_BASE_URL}/view-existing-data`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
