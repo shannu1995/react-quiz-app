@@ -17,8 +17,29 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log('Difficulty:', difficulty);
-    console.log('Continent:', continent);
+    const fetchQuizData = async () => {
+      setLoading(true);
+      let newFilterType: string;
+      let newFilterValue: string | undefined;
+
+      if (difficulty !== "any") {
+        newFilterType = "difficulty";
+        newFilterValue = difficulty;
+      } else {
+        newFilterType = "continent";
+        newFilterValue = continent;
+      }
+
+      setQuizData({
+        filter_value: newFilterValue || '',
+        filter_type: newFilterType,
+        countries: [],
+        scrambled_cities: []
+      });
+      setLoading(false);
+    };
+
+    fetchQuizData();
   }, [difficulty, continent]);
 
   return (
