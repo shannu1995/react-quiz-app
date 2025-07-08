@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
 import ContinentScreen from './ContinentScreen';
 import AllDataScreen from './AllDataScreen';
 import QuizScreen from './QuizScreen';
@@ -11,9 +11,7 @@ import { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-type HomeScreenProps = {
-  navigation: any;
-};
+type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 function HomeScreen({ navigation }: HomeScreenProps) {
   return (

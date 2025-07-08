@@ -2,13 +2,13 @@ import React, {useState, useEffect} from 'react';
 import { Text, ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 import { API_BASE_URL } from './config';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from './types';
 
-type AllDataScreenProps = {
-  navigation: any;
-};
+type AllDataScreenProps = NativeStackScreenProps<RootStackParamList, 'All Current Data'>;
 
 
-export default function AllDataScreen({ navigation }: AllDataScreenProps) {
+export default function AllDataScreen({}: AllDataScreenProps) {
     const { width } = useWindowDimensions();
     const [data, setData] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);

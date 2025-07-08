@@ -27,10 +27,11 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
-        <>
-          {difficulty && <Text>Difficulty: {difficulty}</Text>}
-          {continent && <Text>Continent: {continent}</Text>}
-        </>
+        difficulty == "any" ? (
+          <Text>Quiz Chosen on continent: {continent}</Text>
+        ) : (
+          <Text>Quiz Chosen on difficulty: {difficulty}</Text>
+        )
       )}
     </View>
   );

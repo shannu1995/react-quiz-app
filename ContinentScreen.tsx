@@ -16,7 +16,7 @@ type ContinentScreenProps = NativeStackScreenProps<RootStackParamList, 'Continen
 
 export default function ContinentScreen({ navigation }: ContinentScreenProps) {
   const renderItem = ({ item }: { item: string }) => (
-    <Button title={item} onPress={() => navigation.navigate("QuizScreen", {difficulty:"random", continent: item})} />
+    <Button title={item} onPress={() => navigation.navigate("QuizScreen", {difficulty:"any", continent: item})} />
   );
 
   return (
