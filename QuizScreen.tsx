@@ -59,21 +59,21 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Quiz Screen</Text>
+      <Text style={{fontWeight: 'bold'}}>Quiz Screen</Text>
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
+        <View style={{ flexDirection: 'row', columnGap: 30 }}>
           <ScrollView style={{ flex: 1, padding: 10 }}>
             <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Countries</Text>
             {countriesList.map((country, index) => (
-              <Text key={index}>{country}</Text>
+            <View style={{width:200, borderWidth:2, borderColor:'#4CAF50', padding:10}}><Text key={index}>{country}</Text></View>
             ))}
           </ScrollView>
           <ScrollView style={{ flex: 1, padding: 10 }}>
             <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Cities</Text>
             {citiesList.map((city, index) => (
-              <Text key={index}>{city}</Text>
+              <View style={{width:200, borderWidth:2, borderColor:'#4CAF50', padding:10}}><Text key={index}>{city}</Text></View>
             ))}
           </ScrollView>
         </View>
