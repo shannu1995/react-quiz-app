@@ -4,6 +4,7 @@ import { View, Text, ActivityIndicator, ScrollView, useWindowDimensions } from '
 import RenderHtml from 'react-native-render-html';
 import { RootStackParamList } from './types';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import * as cheerio from 'cheerio';
 
 type QuizScreenProps = NativeStackScreenProps<RootStackParamList, 'QuizScreen'>;
 
@@ -37,6 +38,11 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
           body: formData,
         });
         const data = await response.text(); // Get response as text
+        const $ = cheerio.load(data);
+        const countries = $('#countries').text().trim();
+        const cities = $('#cities').text().trim();
+        console.log("countries list:", countries);
+        console.log("cities list:", cities); 
         setQuizData(data);
       } catch (error) {
         console.error("Failed to fetch quiz data:", error);
