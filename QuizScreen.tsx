@@ -12,8 +12,9 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
     const { difficulty, continent } = route.params;
 
     const { width } = useWindowDimensions();
-    const [quizData, setQuizData] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+    const [countriesList, setCountriesList] = useState<string[]>([]);
+    const [citiesList, setCitiesList] = useState<string[]>([]);
+    const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchQuizData = async () => {
@@ -42,11 +43,13 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
         const countries = $('#countries').text().trim();
         const cities = $('#cities').text().trim();
         console.log("countries list:", countries);
-        console.log("cities list:", cities); 
-        setQuizData(data);
+        console.log("cities list:", cities);
+        setCountriesList(countries.split(',').map(item => item.trim()).filter(item => item !== ''));
+        setCitiesList(cities.split(',').map(item => item.trim()).filter(item => item !== ''));
       } catch (error) {
         console.error("Failed to fetch quiz data:", error);
-        setQuizData("<h1>Error fetching data. Please check network or API.</h1>"); // Set a generic error message as HTML
+        setCountriesList([]);
+        setCitiesList([]);
       } finally {
         setLoading(false);
       }
@@ -61,7 +64,20 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
-        quizData && <RenderHtml contentWidth={width} source={{ html: quizData }} />
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
+          <ScrollView style={{ flex: 1, padding: 10 }}>
+            <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Countries</Text>
+            {countriesList.map((country, index) => (
+              <Text key={index}>{country}</Text>
+            ))}
+          </ScrollView>
+          <ScrollView style={{ flex: 1, padding: 10 }}>
+            <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Cities</Text>
+            {citiesList.map((city, index) => (
+              <Text key={index}>{city}</Text>
+            ))}
+          </ScrollView>
+        </View>
       )}
     </View>
   );
