@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react"
 import { API_BASE_URL } from './config';
 import { View, Text, ActivityIndicator, ScrollView, useWindowDimensions } from 'react-native';
-import RenderHtml from 'react-native-render-html';
 import { RootStackParamList } from './types';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import * as cheerio from 'cheerio';
