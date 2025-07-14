@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react"
-import { View, Text, ActivityIndicator, FlatList } from 'react-native';
+import { API_BASE_URL } from './config';
+import { View, Text, ActivityIndicator, ScrollView, useWindowDimensions } from 'react-native';
+import RenderHtml from 'react-native-render-html';
 import { RootStackParamList } from './types';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -8,12 +10,8 @@ type QuizScreenProps = NativeStackScreenProps<RootStackParamList, 'QuizScreen'>;
 const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
     const { difficulty, continent } = route.params;
 
-    const [quizData, setQuizData] = useState<{
-    filter_value: string;
-    filter_type: string;
-    countries: string[];
-    scrambled_cities: string[];
-  } | null>(null);
+    const { width } = useWindowDimensions();
+    const [quizData, setQuizData] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -22,21 +20,30 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
       let newFilterType: string;
       let newFilterValue: string | undefined;
 
+      const formData = new FormData();
       if (difficulty !== "any") {
         newFilterType = "difficulty";
         newFilterValue = difficulty;
+        formData.append('difficulty', difficulty || '');
       } else {
         newFilterType = "continent";
         newFilterValue = continent;
+        formData.append('continent', continent || '');
       }
 
-      setQuizData({
-        filter_value: newFilterValue || '',
-        filter_type: newFilterType,
-        countries: [],
-        scrambled_cities: []
-      });
-      setLoading(false);
+      try {
+        const response = await fetch(`${API_BASE_URL}/capitals-quiz`, {
+          method: 'POST',
+          body: formData,
+        });
+        const data = await response.text(); // Get response as text
+        setQuizData(data);
+      } catch (error) {
+        console.error("Failed to fetch quiz data:", error);
+        setQuizData("<h1>Error fetching data. Please check network or API.</h1>"); // Set a generic error message as HTML
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchQuizData();
@@ -48,11 +55,7 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
-        difficulty == "any" ? (
-          <Text>Quiz Chosen on continent: {continent}</Text>
-        ) : (
-          <Text>Quiz Chosen on difficulty: {difficulty}</Text>
-        )
+        quizData && <RenderHtml contentWidth={width} source={{ html: quizData }} />
       )}
     </View>
   );
