@@ -1,12 +1,10 @@
 import React, {useState, useEffect} from "react"
 import { API_BASE_URL } from './config';
-import { View, Text, ActivityIndicator, ScrollView, useWindowDimensions, Platform } from 'react-native';
+import { View, Text, ActivityIndicator, ScrollView, useWindowDimensions, TouchableOpacity} from 'react-native';
 import { RootStackParamList } from './types';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { parseDocument } from 'htmlparser2';
 import { DomUtils } from 'htmlparser2';
-import * as cheerio from 'cheerio';
-import { DraxProvider, DraxView } from 'react-native-drax';
 
 type QuizScreenProps = NativeStackScreenProps<RootStackParamList, 'QuizScreen'>;
 
@@ -17,7 +15,6 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
     const [countriesList, setCountriesList] = useState<string[]>([]);
     const [citiesList, setCitiesList] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
-    const isWeb = Platform.OS === 'web';
 
   useEffect(() => {
     const fetchQuizData = async () => {
@@ -42,7 +39,6 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
           body: formData,
         });
         const data = await response.text(); // Get response as text
-        //const $ = cheerio.load(data);
         const dom = parseDocument(data);
         const countriesNode = DomUtils.getElementById('countries',dom.children)
         const citiesNode = DomUtils.getElementById('cities',dom.children);
@@ -81,7 +77,6 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
-        <DraxProvider>
         <View style={{ flexDirection: 'row', columnGap: 30 }}>
           <ScrollView style={{ flex: 1, padding: 10 }}>
             <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Countries</Text>
@@ -100,7 +95,6 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
           ))}
           </ScrollView>
         </View>
-        </DraxProvider>
       )}
     </View>
   );
