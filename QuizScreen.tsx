@@ -44,8 +44,8 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
         const cities = $('#cities').text().trim();
         console.log("countries list:", countries);
         console.log("cities list:", cities);
-        setCountriesList(countries.split(',').map(item => item.trim()).filter(item => item !== ''));
-        setCitiesList(cities.split(',').map(item => item.trim()).filter(item => item !== ''));
+        setCountriesList(countries.split('\n').map(item => item.trim()).filter(item => item !== ''));
+        setCitiesList(cities.split('\n').map(item => item.trim()).filter(item => item !== ''));
       } catch (error) {
         console.error("Failed to fetch quiz data:", error);
         setCountriesList([]);

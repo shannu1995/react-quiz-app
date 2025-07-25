@@ -1,5 +1,6 @@
 {
   "expo": {
+    "jsEngine": "hermes",
     "name": "react-quiz-app",
     "slug": "react-quiz-app",
     "version": "1.0.0",
