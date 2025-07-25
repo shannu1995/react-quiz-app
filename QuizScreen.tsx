@@ -4,6 +4,7 @@ import { View, Text, ActivityIndicator, ScrollView, useWindowDimensions } from '
 import { RootStackParamList } from './types';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import * as cheerio from 'cheerio';
+import { DraxProvider, DraxView } from 'react-native-drax';
 
 type QuizScreenProps = NativeStackScreenProps<RootStackParamList, 'QuizScreen'>;
 
@@ -56,6 +57,15 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
 
     fetchQuizData();
   }, [difficulty, continent]);
+  const onDropCountryToCities = (event: any) => {
+    const draggedCountry = event.dragged.payload as string;
+
+    // Remove dragged country from countriesList
+    setCountriesList(prev => prev.filter(item => item !== draggedCountry));
+
+    // Add dragged country to citiesList
+    setCitiesList(prev => [...prev, draggedCountry]);
+  };
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -63,18 +73,23 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
+        
         <View style={{ flexDirection: 'row', columnGap: 30 }}>
           <ScrollView style={{ flex: 1, padding: 10 }}>
             <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Countries</Text>
             {countriesList.map((country, index) => (
-            <View style={{width:200, borderWidth:2, borderColor:'#4CAF50', padding:10}}><Text key={index}>{country}</Text></View>
+            <View key={country} style={{width:200, borderWidth:2, borderColor:'#4CAF50', padding:10}}>
+            <Text>{country}</Text>
+            </View>
             ))}
           </ScrollView>
           <ScrollView style={{ flex: 1, padding: 10 }}>
             <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Cities</Text>
             {citiesList.map((city, index) => (
-              <View style={{width:200, borderWidth:2, borderColor:'#4CAF50', padding:10}}><Text key={index}>{city}</Text></View>
-            ))}
+            <View key={city} style={{width:200, borderWidth:2, borderColor:'#4CAF50', padding:10}}>
+              <Text>{city}</Text>
+            </View>
+          ))}
           </ScrollView>
         </View>
       )}
