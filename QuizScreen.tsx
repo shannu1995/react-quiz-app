@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import { API_BASE_URL } from './config';
-import { View, Text, ActivityIndicator, ScrollView, useWindowDimensions, TouchableOpacity} from 'react-native';
+import { View, Text, ActivityIndicator, ScrollView, useWindowDimensions, TouchableOpacity, Button} from 'react-native';
 import { RootStackParamList } from './types';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { parseDocument } from 'htmlparser2';
@@ -15,6 +15,21 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
     const [countriesList, setCountriesList] = useState<string[]>([]);
     const [citiesList, setCitiesList] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
+    const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+    const [matches, setMatches] = useState<{ [key: string]: string }>({});
+
+    const handleCountryPress = (country: string) => {
+        setSelectedCountry(country);
+      };
+    const handleCityPress = (city: string) =>{
+      if (selectedCountry) {
+        setMatches(prevMatch => ({
+          ...prevMatch,
+          [city]: selectedCountry
+        }));
+        setSelectedCountry(null);
+      }
+    };
 
   useEffect(() => {
     const fetchQuizData = async () => {
@@ -61,15 +76,6 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
 
     fetchQuizData();
   }, [difficulty, continent]);
-  const onDropCountryToCities = (event: any) => {
-    const draggedCountry = event.dragged.payload as string;
-
-    // Remove dragged country from countriesList
-    setCountriesList(prev => prev.filter(item => item !== draggedCountry));
-
-    // Add dragged country to citiesList
-    setCitiesList(prev => [...prev, draggedCountry]);
-  };
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -81,19 +87,46 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
           <ScrollView style={{ flex: 1, padding: 10 }}>
             <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Countries</Text>
             {countriesList.map((country, index) => (
-            <View key={country} style={{width:200, borderWidth:2, borderColor:'#4CAF50', padding:10}}>
-            <Text>{country}</Text>
-            </View>
+            <TouchableOpacity
+              key={country}
+              onPress={() => handleCountryPress(country)}
+              style={{
+                width: 200,
+                borderWidth: 2,
+                borderColor: selectedCountry === country ? 'blue' : '#4CAF50',
+                padding: 10,
+                marginBottom: 10,
+                backgroundColor: selectedCountry === country ? '#BBDEFB' : '#E8F5E9',
+              }}
+            >
+              <Text>{country}</Text>
+            </TouchableOpacity>
             ))}
           </ScrollView>
           <ScrollView style={{ flex: 1, padding: 10 }}>
             <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Cities</Text>
             {citiesList.map((city, index) => (
-            <View key={city} style={{width:200, borderWidth:2, borderColor:'#4CAF50', padding:10}}>
+            <TouchableOpacity 
+            key={city} 
+            onPress={() => handleCityPress(city)}
+            style={{
+                width: 200,
+                borderWidth: 2,
+                borderColor: '#4CAF50',
+                padding: 10,
+                marginBottom: 10,
+                backgroundColor: '#E3F2FD',
+              }}>
               <Text>{city}</Text>
-            </View>
+              <Text style={{ fontStyle: 'italic', marginTop: 5, color: '#555' }}>
+                Matched: {matches[city] || 'None'}
+              </Text>
+            </TouchableOpacity>
           ))}
           </ScrollView>
+        <Button
+          title="Submit">
+        </Button>
         </View>
       )}
     </View>
