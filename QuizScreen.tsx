@@ -149,7 +149,7 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
           </ScrollView>
         </ScrollView>
       )}
-      <View style={{ marginTop: 20 }}>
+      <View style={{ width: 200, marginTop: 20 }}>
         <Button
           title="Submit" onPress={submitResults}>
         </Button>
