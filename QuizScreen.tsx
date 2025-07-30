@@ -43,6 +43,9 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
         });
         const data = await response.json();
         console.log("Submission successful:", data);
+        if (data.redirect_url){
+          navigation.navigate("ResultsScreen");
+        }
       }catch (error) {
         console.error("Error submitting results:", error);
       }

@@ -6,6 +6,7 @@ import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navig
 import ContinentScreen from './ContinentScreen';
 import AllDataScreen from './AllDataScreen';
 import QuizScreen from './QuizScreen';
+import ResultsScreen from './ResultsScreen';
 
 import { RootStackParamList } from './types';
 
@@ -44,6 +45,7 @@ export default function App() {
         <Stack.Screen name="Continent" component={ContinentScreen} options={{ title: 'Select Continent' }} />
         <Stack.Screen name="QuizScreen" component={QuizScreen} options={{ title: 'Quiz' }} />
         <Stack.Screen name="All Current Data" component={AllDataScreen} options={{ title: 'All Current Data' }} />
+        <Stack.Screen name="ResultsScreen" component={ResultsScreen} options={{ title: 'Results' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
