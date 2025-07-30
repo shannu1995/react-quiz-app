@@ -83,39 +83,41 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
-        <View style={{ flexDirection: 'row', columnGap: 30 }}>
-          <ScrollView style={{ flex: 1, padding: 10 }}>
+        <ScrollView horizontal contentContainerStyle={{ padding: 10 }}>
+          <ScrollView style={{ flex: 1}}>
             <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Countries</Text>
             {countriesList.map((country, index) => (
             <TouchableOpacity
               key={country}
               onPress={() => handleCountryPress(country)}
               style={{
-                width: 200,
+                flex: 1,
                 borderWidth: 2,
                 borderColor: selectedCountry === country ? 'blue' : '#4CAF50',
                 padding: 10,
                 marginBottom: 10,
                 backgroundColor: selectedCountry === country ? '#BBDEFB' : '#E8F5E9',
+                borderRadius: 6,
               }}
             >
               <Text>{country}</Text>
             </TouchableOpacity>
             ))}
           </ScrollView>
-          <ScrollView style={{ flex: 1, padding: 10 }}>
+          <ScrollView style={{ flex: 1, marginLeft: 16 }}>
             <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Cities</Text>
             {citiesList.map((city, index) => (
             <TouchableOpacity 
             key={city} 
             onPress={() => handleCityPress(city)}
             style={{
-                width: 200,
+                flex: 1,
                 borderWidth: 2,
                 borderColor: '#4CAF50',
                 padding: 10,
                 marginBottom: 10,
                 backgroundColor: '#E3F2FD',
+                borderRadius: 6,
               }}>
               <Text>{city}</Text>
               <Text style={{ fontStyle: 'italic', marginTop: 5, color: '#555' }}>
@@ -124,11 +126,11 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
             </TouchableOpacity>
           ))}
           </ScrollView>
-        <Button
+        </ScrollView>
+      )}
+      <Button
           title="Submit">
         </Button>
-        </View>
-      )}
     </View>
   );
 };
