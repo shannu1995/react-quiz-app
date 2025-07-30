@@ -30,6 +30,23 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
         setSelectedCountry(null);
       }
     };
+    const submitResults = async() => {
+      try{
+        const response = await fetch(`${API_BASE_URL}/submit_results`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            matches,
+          }),
+        });
+        const data = await response.json();
+        console.log("Submission successful:", data);
+      }catch (error) {
+        console.error("Error submitting results:", error);
+      }
+    };
 
   useEffect(() => {
     const fetchQuizData = async () => {
@@ -134,7 +151,7 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
       )}
       <View style={{ marginTop: 20 }}>
         <Button
-          title="Submit">
+          title="Submit" onPress={submitResults}>
         </Button>
       </View>
     </ScrollView>
