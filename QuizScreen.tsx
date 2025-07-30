@@ -78,12 +78,16 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
   }, [difficulty, continent]);
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <ScrollView contentContainerStyle={{ padding: 10 }}>
       <Text style={{fontWeight: 'bold'}}>Quiz Screen</Text>
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
-        <ScrollView horizontal contentContainerStyle={{ padding: 10 }}>
+        <ScrollView
+          horizontal
+          contentContainerStyle={{ gap: 16, paddingBottom: 10 }}
+          showsHorizontalScrollIndicator={false}
+        >
           <ScrollView style={{ flex: 1}}>
             <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Countries</Text>
             {countriesList.map((country, index) => (
@@ -91,7 +95,7 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
               key={country}
               onPress={() => handleCountryPress(country)}
               style={{
-                flex: 1,
+                width: '100%',
                 borderWidth: 2,
                 borderColor: selectedCountry === country ? 'blue' : '#4CAF50',
                 padding: 10,
@@ -111,7 +115,7 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
             key={city} 
             onPress={() => handleCityPress(city)}
             style={{
-                flex: 1,
+                width: '100%',
                 borderWidth: 2,
                 borderColor: '#4CAF50',
                 padding: 10,
@@ -128,10 +132,12 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
           </ScrollView>
         </ScrollView>
       )}
-      <Button
+      <View style={{ marginTop: 20 }}>
+        <Button
           title="Submit">
         </Button>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
