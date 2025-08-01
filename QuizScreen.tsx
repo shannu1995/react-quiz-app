@@ -9,6 +9,9 @@ import { DomUtils } from 'htmlparser2';
 type QuizScreenProps = NativeStackScreenProps<RootStackParamList, 'QuizScreen'>;
 
 const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
+    const getMatchedCountries = () =>{
+      return new Set(Object.values(matches));
+    };
     const { difficulty, continent } = route.params;
 
     const { width } = useWindowDimensions();
@@ -69,7 +72,7 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
 
         const correctCitiesNode = DomUtils.getElementById('correct_cities', dom.children);
         const correctCitiesJSON = correctCitiesNode ? DomUtils.textContent(correctCitiesNode).trim() : null;
-        
+
         console.log("Correct cities JSON:", correctCitiesJSON);
         if (correctCitiesJSON) {
           try{
@@ -118,23 +121,29 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
         >
           <ScrollView style={{ flex: 1}}>
             <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Countries</Text>
-            {countriesList.map((country, index) => (
-            <TouchableOpacity
-              key={country}
-              onPress={() => handleCountryPress(country)}
-              style={{
-                width: '100%',
-                borderWidth: 2,
-                borderColor: selectedCountry === country ? 'blue' : '#4CAF50',
-                padding: 10,
-                marginBottom: 10,
-                backgroundColor: selectedCountry === country ? '#BBDEFB' : '#E8F5E9',
-                borderRadius: 6,
-              }}
+            {countriesList.map((country, index) => {
+              const isMatched = getMatchedCountries().has(country);
+              const isSelected = selectedCountry === country;
+              return (
+                <TouchableOpacity
+                  key={country}
+                  onPress={() => !isMatched && handleCountryPress(country)}
+                  disabled={isMatched}
+                  style={{
+                    width: '100%',
+                    borderWidth: 2,
+                    borderColor: isSelected ? 'blue' : isMatched ? '#999' : '#4CAF50',
+                    padding: 10,
+                    marginBottom: 10,
+                    backgroundColor: isSelected ? '#BBDEFB' : isMatched ? '#EEEEEE' : '#E8F5E9',
+                    borderRadius: 6,
+                    opacity: isMatched ? 0.6 : 1,
+                  }}
             >
               <Text>{country}</Text>
             </TouchableOpacity>
-            ))}
+          );
+          })}
           </ScrollView>
           <ScrollView style={{ flex: 1, marginLeft: 16 }}>
             <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Cities</Text>
