@@ -10,7 +10,7 @@ const ResultsScreen = ({route, navigation }: ResultsScreenProps) => {
         Object.entries(matches).map(([key, value]) => [value, key])
     );
     return (
-    <ScrollView horizontal>
+    <ScrollView>
         <View style={styles.header}>
             <Text style={styles.headerCell}>Country</Text>
             <Text style={styles.headerCell}>Your Answer</Text>
