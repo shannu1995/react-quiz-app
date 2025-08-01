@@ -38,8 +38,6 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
       }
     };
     const submitResults = () => {
-      console.log("Submitted matches:", matches);
-      console.log("Correct answers:", correctAnswers);
       navigation.navigate('ResultsScreen', { matches, correctAnswers });
     };
 
@@ -76,7 +74,6 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
         const correctCitiesNode = DomUtils.getElementById('correct_cities', dom.children);
         const correctCitiesJSON = correctCitiesNode ? DomUtils.textContent(correctCitiesNode).trim() : null;
 
-        console.log("Correct cities JSON:", correctCitiesJSON);
         if (correctCitiesJSON) {
           try{
             const cityPairs: [string, string][] = JSON.parse(correctCitiesJSON);
@@ -84,7 +81,6 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
             for (const [city, country] of cityPairs) {
               correctCitiesObj[country] = city;
             }
-            console.log("Correct cities:", correctCitiesObj);
             setCorrectAnswers(correctCitiesObj);
           } catch (error) {
             console.error("Failed to parse correct cities JSON:", error);
@@ -92,11 +88,6 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
         } else {
           console.error("No correct cities found in the response.");
         }
-
-        
-        console.log("countries list:", countries);
-        console.log("cities list:", cities);
-
         setCountriesList(countries.split('\n').map(item => item.trim()).filter(item => item !== ''));
         setCitiesList(cities.split('\n').map(item => item.trim()).filter(item => item !== ''));
       } catch (error) {
@@ -135,7 +126,7 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
                   style={{
                     width: '100%',
                     borderWidth: 2,
-                    borderColor: isSelected ? 'blue' : isMatched ? '#999' : '#4CAF50',
+                    borderColor: isSelected ? 'blue' : isMatched ? '#999999' : '#4CAF50',
                     padding: 10,
                     marginBottom: 10,
                     backgroundColor: isSelected ? '#BBDEFB' : isMatched ? '#EEEEEE' : '#E8F5E9',
@@ -159,14 +150,14 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
                 style={{
                     width: '100%',
                     borderWidth: 2,
-                    borderColor: isMatched ? '#999' : '#4CAF50',
+                    borderColor: isMatched ? '#999999' : '#4CAF50',
                     padding: 10,
                     marginBottom: 10,
                     backgroundColor: isMatched ? '#EEEEEE' : '#E3F2FD',
                     borderRadius: 6,
                   }}>
                   <Text>{city}</Text>
-                  <Text style={{ fontStyle: 'italic', marginTop: 5, color: '#555' }}>
+                  <Text style={{ fontStyle: 'italic', marginTop: 5, color: '#555555' }}>
                     Matched: {matches[city] || 'None'}
                   </Text>
                 </TouchableOpacity>
