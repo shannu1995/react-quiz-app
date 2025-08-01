@@ -17,6 +17,7 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
     const [loading, setLoading] = useState(false);
     const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
     const [matches, setMatches] = useState<{ [key: string]: string }>({});
+    const [correctAnswers, setCorrectAnswers] = useState<{ [key: string]: string }>({});
 
     const handleCountryPress = (country: string) => {
         setSelectedCountry(country);
@@ -30,25 +31,10 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
         setSelectedCountry(null);
       }
     };
-    const submitResults = async() => {
-      try{
-        const response = await fetch(`${API_BASE_URL}/submit_results`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            matches,
-          }),
-        });
-        const data = await response.json();
-        console.log("Submission successful:", data);
-        if (data.redirect_url){
-          navigation.navigate("ResultsScreen");
-        }
-      }catch (error) {
-        console.error("Error submitting results:", error);
-      }
+    const submitResults = () => {
+      console.log("Submitted matches:", matches);
+      console.log("Correct answers:", correctAnswers);
+      navigation.navigate('ResultsScreen', { matches, correctAnswers });
     };
 
   useEffect(() => {
@@ -81,8 +67,30 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
         const countries = countriesNode ? DomUtils.textContent(countriesNode).trim() : '';
         const cities = citiesNode ? DomUtils.textContent(citiesNode).trim() : '';
 
+        const correctCitiesNode = DomUtils.getElementById('correct_cities', dom.children);
+        const correctCitiesJSON = correctCitiesNode ? DomUtils.textContent(correctCitiesNode).trim() : null;
+        
+        console.log("Correct cities JSON:", correctCitiesJSON);
+        if (correctCitiesJSON) {
+          try{
+            const cityPairs: [string, string][] = JSON.parse(correctCitiesJSON);
+            const correctCitiesObj: { [key: string]: string } = {};
+            for (const [city, country] of cityPairs) {
+              correctCitiesObj[country] = city;
+            }
+            console.log("Correct cities:", correctCitiesObj);
+            setCorrectAnswers(correctCitiesObj);
+          } catch (error) {
+            console.error("Failed to parse correct cities JSON:", error);
+          }
+        } else {
+          console.error("No correct cities found in the response.");
+        }
+
+        
         console.log("countries list:", countries);
         console.log("cities list:", cities);
+
         setCountriesList(countries.split('\n').map(item => item.trim()).filter(item => item !== ''));
         setCitiesList(cities.split('\n').map(item => item.trim()).filter(item => item !== ''));
       } catch (error) {
