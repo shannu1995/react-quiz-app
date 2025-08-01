@@ -36,4 +36,27 @@ const ResultsScreen = ({route, navigation }: ResultsScreenProps) => {
     );
 };
 
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    backgroundColor: '#ddd',
+    paddingVertical: 8,
+  },
+  headerCell: {
+    flex: 1,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    paddingVertical: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  cell: {
+    flex: 1,
+    textAlign: 'center',
+  },
+});
+
 export default ResultsScreen;
