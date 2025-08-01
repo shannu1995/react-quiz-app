@@ -12,6 +12,9 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
     const getMatchedCountries = () =>{
       return new Set(Object.values(matches));
     };
+    const getMatchedCities = () =>{
+      return new Set(Object.keys(matches));
+    };
     const { difficulty, continent } = route.params;
 
     const { width } = useWindowDimensions();
@@ -147,25 +150,28 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
           </ScrollView>
           <ScrollView style={{ flex: 1, marginLeft: 16 }}>
             <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Cities</Text>
-            {citiesList.map((city, index) => (
-            <TouchableOpacity 
-            key={city} 
-            onPress={() => handleCityPress(city)}
-            style={{
-                width: '100%',
-                borderWidth: 2,
-                borderColor: '#4CAF50',
-                padding: 10,
-                marginBottom: 10,
-                backgroundColor: '#E3F2FD',
-                borderRadius: 6,
-              }}>
-              <Text>{city}</Text>
-              <Text style={{ fontStyle: 'italic', marginTop: 5, color: '#555' }}>
-                Matched: {matches[city] || 'None'}
-              </Text>
-            </TouchableOpacity>
-          ))}
+            {citiesList.map((city, index) => {
+              const isMatched = getMatchedCities().has(city);
+              return (
+                <TouchableOpacity 
+                key={city} 
+                onPress={() => handleCityPress(city)}
+                style={{
+                    width: '100%',
+                    borderWidth: 2,
+                    borderColor: isMatched ? '#999' : '#4CAF50',
+                    padding: 10,
+                    marginBottom: 10,
+                    backgroundColor: isMatched ? '#EEEEEE' : '#E3F2FD',
+                    borderRadius: 6,
+                  }}>
+                  <Text>{city}</Text>
+                  <Text style={{ fontStyle: 'italic', marginTop: 5, color: '#555' }}>
+                    Matched: {matches[city] || 'None'}
+                  </Text>
+                </TouchableOpacity>
+          );
+    })}
           </ScrollView>
         </ScrollView>
       )}
