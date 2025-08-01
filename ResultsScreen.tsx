@@ -1,6 +1,4 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
-import RenderHtml from 'react-native-render-html';
+import { View, Text, StyleSheet, Button, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from './types';
 
@@ -12,27 +10,38 @@ const ResultsScreen = ({route, navigation }: ResultsScreenProps) => {
         Object.entries(matches).map(([key, value]) => [value, key])
     );
     return (
-        <View>
-            <Text>Results Screen</Text>
-            <View>
-                <Text>Matches:</Text>
-                {Object.entries(swappedMatches).map(([city, country]) => (
-                    <Text key={city}>{city} - {country}</Text>
-                ))}
-            </View>
-            <View>
-                <Text>Correct Answers:</Text>
-                {Object.entries(correctAnswers).map(([city, country]) => (
-                    <Text key={city}>{city} - {country}</Text>
-                ))}
-            </View>
+    <ScrollView horizontal>
+        <View style={styles.header}>
+            <Text style={styles.headerCell}>Country</Text>
+            <Text style={styles.headerCell}>Your Answer</Text>
+            <Text style={styles.headerCell}>Correct Answer</Text>
+            <Text style={styles.headerCell}>Result</Text>
+        </View>
+        {Object.entries(correctAnswers).map(([country, city]) => {
+            const userAnswer = swappedMatches[country] || 'No Answer';
+            const correctAnswer = correctAnswers[country];
+            let result: string;
+            if (userAnswer === 'No Answer' || userAnswer !== city) {
+                result = 'Incorrect';
+            } else {
+                result = 'Correct';
+            }
+            return (
+                <View key={country} style={styles.row}>
+                    <Text style={styles.cell}>{country}</Text>
+                    <Text style={styles.cell}>{userAnswer}</Text>
+                    <Text style={styles.cell}>{correctAnswer}</Text>
+                    <Text style={styles.cell}>{result}</Text>
+                </View>
+            );
+        })}
         <View>
             <Button
                 title="Back to Home"
                 onPress={() => navigation.navigate('Home')}
             />
         </View>
-        </View>
+    </ScrollView>
     );
 };
 
