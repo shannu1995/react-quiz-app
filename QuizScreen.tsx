@@ -40,6 +40,10 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
     const submitResults = () => {
       navigation.navigate('ResultsScreen', { matches, correctAnswers });
     };
+    const resetQuiz = () => {
+      setSelectedCountry(null);
+      setMatches({});
+    };
 
   useEffect(() => {
     const fetchQuizData = async () => {
@@ -166,10 +170,15 @@ const QuizScreen = ({ route, navigation }: QuizScreenProps) => {
           </ScrollView>
         </ScrollView>
       )}
-      <View style={{ width: 200, marginTop: 20 }}>
+      <View style={{ flexDirection: 'row', width: 200, marginTop: 20 }}>
         <Button
           title="Submit" onPress={submitResults}>
         </Button>
+        <View style={{ marginLeft: 10 }}>
+          <Button
+            title="Reset" onPress={resetQuiz}>
+          </Button>
+        </View>
       </View>
     </ScrollView>
   );
